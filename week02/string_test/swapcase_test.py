@@ -1,20 +1,16 @@
 # coding:utf-8
+
 """
-swapcase函数是将字符串中的大写字母转化成小写字母
-将小写字母转化成大写字母
+    swapcase函数,是将字符串中的大写字符全部转化成小写字符
+    小写字符全部转化成大写字符
 """
 
+info_01 = "ZXY LSS"
+info_02 = "zxy lss"
+info_03 = "I am Zxy"
 
-info_one = 'ZhangXiangYu'
-# 在这里等价于lower函数
-info_two = 'ZHANGXIANGYU'
-# 这里等价于upper函数
-info_three = 'zhangxiangyu'
+if __name__ == "__main__":
+    print(info_01.swapcase())
+    print(info_02.swapcase())
+    print(info_03.swapcase())
 
-info_one_new = info_one.swapcase()
-info_two_new = info_two.swapcase()
-info_three_new = info_three.swapcase()
-
-print(info_one_new)
-print(info_two_new)
-print(info_three_new)

@@ -10,11 +10,11 @@ print(a)
 print(z)
 print(i)
 
-dict = {
-    'a':a,
-    'z':z,
-    'i':i
+num_dict = {
+    'a': a,
+    'z': z,
+    'i': i
 }
 
-print('每个成员对应的数值是',dict)
+print('每个成员对应的数值是', dict)
 
