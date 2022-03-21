@@ -17,7 +17,7 @@ for i in "python":
 info = ("zxy", "lss", "kakaka")
 for name in info:
     if name == "zxy":
-        print(name,"yyds")
+        print(name, "yyds")
     else:
         print("hello,{}".format(name))
     print("------------")
