@@ -50,12 +50,12 @@ for key, value in dict.items():
 # range函数的使用
 # range函数，有三个参数
 # 第一个参数是start，第二个参数是end，第三个参数是跳步（每隔几个）
-l = range(5)  # 相当于生成0~4（左闭右开）
-print(l)
-print("类型为", type(l))
-
-# 遍历
-for i in l:
-    print(i)
-else:
-    print("for循环结束了！！！！")
+# l = range(5)  # 相当于生成0~4（左闭右开）
+# print(l)
+# print("类型为", type(l))
+#
+# # 遍历
+# for i in l:
+#     print(i)
+# else:
+#     print("for循环结束了！！！！")
