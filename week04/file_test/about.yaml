@@ -1,0 +1,13 @@
+url:
+  www.bing.com
+books:
+  - python
+  - c++
+  - c
+  - java
+  - c#
+info:
+  name: zxy
+  age: 18
+  girlfirend: lss
+
