@@ -4,7 +4,7 @@ from common.utils import check_file
 import os
 import json
 import time
-from common.error import UserExistsError, RoleError, LevelError, NegativeNumberError, NotExistError
+from common.error import UserExistsError, RoleError, LevelError, NegativeNumberError, NotExistError, CountError
 from common.utils import timestamp_to_string
 from common.consts import ROLES, FIRSTLEVELS, SECONDLEVELS
 
@@ -38,7 +38,7 @@ class Base(object):
         return data
 
     # **将传入的参数视为一个字典
-    def write_user(self, **user):
+    def __write_user(self, **user):
         if 'username' not in user:
             raise TypeError("missing username")
         if 'role' not in user:
@@ -116,7 +116,7 @@ class Base(object):
 
 
     # 读取礼物
-    def read_gifts(self):
+    def __read_gifts(self):
         with open(self.gift_json, "r") as f:
             # 文件读出来，然后将json反序列化
             data = json.loads(f.read())
@@ -148,7 +148,7 @@ class Base(object):
             }
         }
 
-        gifts = self.read_gifts()
+        gifts = self.__read_gifts()
         if len(gifts) != 0:
             return
 
@@ -156,7 +156,7 @@ class Base(object):
         self.__save(data, self.gift_json)
 
 
-    def write_gifts(self, first_level, second_level, gift_name, gift_count):
+    def __write_gifts(self, first_level, second_level, gift_name, gift_count):
         if first_level not in FIRSTLEVELS:
             raise LevelError("firstlevel not exists")
         if second_level not in SECONDLEVELS:
@@ -194,7 +194,9 @@ class Base(object):
 
 
     # 礼物更新
-    def __gift_update(self, first_level, second_level, gift_name, gift_count=1):
+    def __gift_update(self, first_level, second_level, gift_name, gift_count=1, is_admin=False):
+        # 使用断言，如果传入的gift_count不是int类型，那就抛出异常
+        assert isinstance(gift_count, int), 'gift count is not int'
         data = self.__check_and_getgift(first_level, second_level, gift_name)
         if data == False:
             return data
@@ -205,12 +207,18 @@ class Base(object):
 
         # 最终的礼物字典
         current_gift = current_second_gift_pool[gift_name]
+        # 管理员直接修改礼物的数量
+        if is_admin == True:
+            if gift_count <= 0:
+                raise CountError("你传入的数量不能小于等于0")
+            current_gift['count'] = gift_count
+        else:
+            # 如果传入的数量，本身数据库中就没有那么多，不能删除
+            if current_gift['count'] - gift_count  < 0:
+                raise NegativeNumberError("没有那么多的礼品")
+            current_gift['count'] -= gift_count
 
-        # 如果传入的数量，本身数据库中就没有那么多，不能删除
-        if current_gift['count'] - gift_count  < 0:
-            raise NegativeNumberError("没有那么多的礼品")
 
-        current_gift['count'] -= gift_count
         # 礼物字典回第二级
         current_second_gift_pool[gift_name] = current_gift
         # 第二级回第一级
@@ -221,7 +229,7 @@ class Base(object):
 
 
     # 删除具体的礼物
-    def delete_gift(self, first_level, second_level, gift_name):
+    def __delete_gift(self, first_level, second_level, gift_name):
         data = self.__check_and_getgift(first_level, second_level, gift_name)
         if data == False:
             return data
@@ -254,7 +262,7 @@ class Base(object):
             raise LevelError("secondlevel not exists")
 
         # 读出大字典
-        gifts = self.read_gifts()
+        gifts = self.__read_gifts()
         # 第一层字典的value
         level_one = gifts[first_level]
         # 第二层字典的value
@@ -282,7 +290,7 @@ if __name__ == "__main__":
     print(gift_path)
     print(user_path)
     base = Base(user_json=user_path, gift_json=gift_path)
-    # base.write_user(username="zxy", role="admin")
+    # base.write_user(username="lss", role="normal")
     # result = base.delete_user(username='zxy')
     # print(result)
 
