@@ -16,7 +16,7 @@ __config = {
 try:
     pool = mysql.connector.pooling.MySQLConnectionPool(
         **__config,
-        pool_size=10
+        pool_size=30
     )
 
 except Exception as e:

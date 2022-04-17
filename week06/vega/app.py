@@ -101,7 +101,7 @@ while True:
                                         num = int(input("\n\t输入删除索引:"))
                                         print(num, type(num))
                                         result = __news_service.all_news(page)
-                                        __news_service.delete_by_id(result[num - 1][0])
+                                        __news_service.delete_by_id(result[num - 1][4])
                                         print("删除成功（1秒后显示）")
                                         time.sleep(1)
                                         # 展示所有新闻
@@ -177,15 +177,6 @@ while True:
                                         print(Fore.LIGHTRED_EX, f"页码:{page}/{page_count}", end="\t")
                                         print(Fore.LIGHTRED_EX, "pre \t next")
 
-
-
-
-
-
-
-
-
-                            
                     elif opt == "back":
                         break
                     elif opt == "exit":

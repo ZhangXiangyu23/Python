@@ -68,7 +68,7 @@ class NewsDao:
         try:
             con = pool.get_connection()
             cursor = con.cursor()
-            sql = "select n.title, t.type, u.username, n.state" \
+            sql = "select n.title, t.type, u.username, n.state,  n.id" \
                   " from t_news n join t_type t on n.type_id = t.id" \
                   " join t_user u on n.editor_id = u.id" \
                   " order by n.create_time DESC " \
